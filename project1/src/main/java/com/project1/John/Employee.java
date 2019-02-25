@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.LinkedList;
 
 public class Employee {
 	String firstName, lastName, username, password, email;
@@ -97,5 +98,76 @@ public class Employee {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+	}
+	public static int employeeCount()
+	{
+		String url = "jdbc:postgresql://localhost:5432/postgres?currentSchema=project1_schema";
+        String username = "postgres";
+        String password = "admin";
+        int count = 0;
+        
+        try (Connection connection = DriverManager.getConnection(url, username, password))
+        {
+        	Statement statement = connection.createStatement();
+        	ResultSet rs = statement.executeQuery("SELECT COUNT(id) FROM employee");
+        	rs.next();
+        	
+        		count = rs.getInt("count");
+        	
+        	rs.close();
+        } catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+        return count;
+	}
+	public static Employee[] getAll()
+	{
+		
+		int count = employeeCount();
+		String url = "jdbc:postgresql://localhost:5432/postgres?currentSchema=project1_schema";
+        String username = "postgres";
+        String password = "admin";
+        Employee[] emp = new Employee[count];
+        for (int x = 0; x < emp.length; x++)
+        {
+        	emp[x] = new Employee();
+        }
+        try (Connection connection = DriverManager.getConnection(url, username, password))
+        {
+        	Statement statement = connection.createStatement();
+        	//statement.executeQuery("SET search_path TO project1_schema;");
+        	ResultSet rs = statement.executeQuery("SELECT * FROM employee;");
+        	int x = 0;
+        	while (rs.next())
+        	{
+        		emp[x].firstName = rs.getString("first_name");
+        		emp[x].lastName = rs.getString("last_name");
+        		emp[x].username = rs.getString("username");
+        		emp[x].password = rs.getString("password");
+        		emp[x].email = rs.getString("email");
+        		emp[x].position_id = rs.getInt("position_id");
+        		emp[x].manager_id = rs.getInt("manager_id");
+        		emp[x].startDate = rs.getDate("start_date");
+        		x++;
+        		
+        	}
+        	rs.close();
+        }
+        catch (SQLException e)
+        {
+        	e.printStackTrace();
+        }
+        return emp;
+	}
+	public void printData()
+	{
+		System.out.println("First Name: " + firstName
+				+ " Last Name: " + lastName +
+				" Username: " + username +
+				" Password: " + password +
+				" Email: " + email +
+				" position_id: " + position_id +
+				" manager_id: " + manager_id);
 	}
 }
