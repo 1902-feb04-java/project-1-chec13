@@ -1,5 +1,6 @@
 package com.project1.John;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -16,9 +17,14 @@ import java.sql.ResultSet;
 public class App {
     public static void main(String[] args) 
     {
-    	Employees emp = Employees.getEmployee(1);
+    	Employee emp = Employee.getEmployee(1);
     	System.out.println(emp.firstName);
-        
+        Date d = new Date(System.currentTimeMillis());
+    	
+    	//Employee newEmployee = new Employee("David", "Pamack", 1, 1, "Dpamack", "Dppassword",
+    	//		"DPamack@gmail.com", d);
+    	//Employee.depositEmployee(newEmployee);
+        Employee.updateEmployee(7, "password", "Dpassword");
 
         
         
