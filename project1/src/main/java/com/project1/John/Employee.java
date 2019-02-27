@@ -10,7 +10,7 @@ import java.util.LinkedList;
 
 public class Employee {
 	String firstName, lastName, username, password, email;
-	int position_id, manager_id;
+	int position_id, manager_id, id;
 	Date startDate;
 	public static Employee getEmployee(int id)
 	{
@@ -26,6 +26,7 @@ public class Employee {
         			+ "WHERE emp.id = " + id);
         	while (rs.next())
         	{
+        		emp.id = rs.getInt("id");
         		emp.firstName = rs.getString("first_name");
         		emp.lastName = rs.getString("last_name");
         		emp.username = rs.getString("username");
@@ -141,6 +142,7 @@ public class Employee {
         	int x = 0;
         	while (rs.next())
         	{
+        		emp[x].id = rs.getInt("id");
         		emp[x].firstName = rs.getString("first_name");
         		emp[x].lastName = rs.getString("last_name");
         		emp[x].username = rs.getString("username");
@@ -168,6 +170,7 @@ public class Employee {
 				" Password: " + password +
 				" Email: " + email +
 				" position_id: " + position_id +
-				" manager_id: " + manager_id);
+				" manager_id: " + manager_id +
+				" id: " + id);
 	}
 }
