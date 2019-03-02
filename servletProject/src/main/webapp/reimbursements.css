@@ -79,7 +79,7 @@ body {
     background-color: rgba(255, 230, 100, 0.5);
     font-weight: 900;
     font-stretch: condensed;
-    display:none;
+    
 }
 #reimbursement-create-div{
     background-color: darkgray;
@@ -100,6 +100,7 @@ body {
     padding: 5%;
     padding-left: 10%;
     margin: 5%;
+    display:none;
 }
 #reimbursement-create-div:hover {
   height: 250px; 

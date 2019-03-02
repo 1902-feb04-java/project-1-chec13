@@ -38,7 +38,7 @@ public class LoginServlet extends HttpServlet {
 		String username = (String) session.getAttribute("username");
 		
 		Employee e = Employee.searchEmployee("username", username);
-		if (password.equals("") || username.equals(""))
+		if (password==null || username==null)
 		{
 			session.invalidate();
 			req.getRequestDispatcher("login.html").forward(req, resp);
