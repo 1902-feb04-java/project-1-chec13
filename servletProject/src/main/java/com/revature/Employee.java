@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
 
+
 public class Employee {
 	String firstName, lastName, username, password, email;
 	int position_id, manager_id, id;

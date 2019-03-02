@@ -16,5 +16,10 @@ class TestDataBase {
 		assertTrue(Employee.employeeCount() == 6);
 		
 	}
+	@Test
+	void testSearch()
+	{
+		assertNotNull(Employee.searchEmployee("username", "three"));
+	}
 
 }

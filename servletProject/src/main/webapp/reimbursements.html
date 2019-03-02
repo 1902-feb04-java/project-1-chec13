@@ -3,8 +3,77 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
+<link href="reimbursements.css" type="text/css" rel="stylesheet">
 </head>
 <body>
+<div id="header-div">
+    <button>Profile</button>
+    <button>Reimbursements</button>
+    <button>Logout</button>
 
+</div>
+<div id="welcome">
+    <h1>Welcome</h1>
+    <p>Here you can edit your profile, or submit a reimbursement request.</p>
+</div>
+<div id="profile-div">
+    <div id="profile-picture-div">
+        <img id="profile-picture" src="https://www.thehindu.com/sci-tech/technology/internet/article17759222.ece/alternates/FREE_660/02th-egg-person">
+        <input id=profile-picture-selector type="file">
+    </div>
+    <p>Name: Admin</p>
+    <p>Username: Admin</p>
+    <br>
+    <label name="email">Email: </label>
+    <input name="email" id="email" type="email">
+    <label name="profile-address">Address: </label>
+    <input name="profile-address" id="profile-address" type="text">
+    <br>
+    <label name="profile-address2">Address 2: </label>
+    <input name="profile-address2" id="profile-address2" type="text">
+    <label name="profile-state">State: </label>
+    <input name="profile-state" id="profile-state" type="text">
+    <br>
+    <label name="profile-zipcode">Zipcode :</label>
+    <input name="profile-zipcode" id="profile-zipcode" type="text">
+    <br>
+    <label name="current-password">Current Password: </label>
+    <input name="current-password" id="current-password" type="password">
+    <br>
+    <label name="update-password">New Password: </label>
+    <input name="update-password" id="update-password" type="password">
+    <br>
+    <label name="update-password2">Retype Password: </label>
+    <input name="update-password2" id="update-password2" type="passwprd">
+    <br>
+    <input name="submit" id="submit" type="submit">
+
+</div>
+<div id="reimbursement-div">
+    <div id="reimbursement-create-div">
+        <p>Create Request.</p>
+    </div>
+    <div id="reimbursement-search-div">
+        <form>
+            <label for="name">Name: </label>
+            <input name="name" type="text" id="name">
+            <label for="status">Status: </label>
+            <input name="status" type="text">
+            <label for="requestee">Requestee: </label>
+            <input type="text" name="requestee">
+            <label for="evaluator">Evaluator: </label>
+            <input type="text" name="evaluator">
+            <label for="requested-date">Requested Date: </label>
+            <input type="date" name="requested-date">
+            <label for="completed-date">Completed Date: </label>
+            <input type="date" name="completed-date" id="completed-date">
+            <input type="submit" name="search" value="Search">
+        </form>
+        <div id="reimbursement-search-table-div"
+        {
+            
+        }
+    </div>
+</div>
 </body>
 </html>
