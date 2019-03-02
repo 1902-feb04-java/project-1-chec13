@@ -4,12 +4,13 @@
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
 <link href="reimbursements.css" type="text/css" rel="stylesheet">
+<script src="reimbursements.js"></script>
 </head>
 <body>
 <div id="header-div">
-    <button>Profile</button>
-    <button>Reimbursements</button>
-    <button>Logout</button>
+    <button id="profileBtn">Profile</button>
+    <button id="reimbursementsBtn">Reimbursements</button>
+    <button id="logoutBtn">Logout</button>
 
 </div>
 <div id="welcome">
@@ -21,11 +22,12 @@
         <img id="profile-picture" src="https://www.thehindu.com/sci-tech/technology/internet/article17759222.ece/alternates/FREE_660/02th-egg-person">
         <input id=profile-picture-selector type="file">
     </div>
-    <p>Name: Admin</p>
-    <p>Username: Admin</p>
+    <p id="profile-name">Name: Admin</p>
+    <p id="profile-username">Username: Admin</p>
+    <p id="profile-start-date">Start Date: 3/1/2019</p>
     <br>
     <label name="email">Email: </label>
-    <input name="email" id="email" type="email">
+    <input name="email" id="profile-email" type="email">
     <label name="profile-address">Address: </label>
     <input name="profile-address" id="profile-address" type="text">
     <br>
@@ -52,6 +54,20 @@
 <div id="reimbursement-div">
     <div id="reimbursement-create-div">
         <p>Create Request.</p>
+        <div id="reimbursement-create-form-div">
+            <form>
+                <label>Amount: </label>
+                <input type="text">
+                <br>
+                <label>Description: </label>
+                <textarea row="4" cols="50"></textarea>
+                <br>
+                <label>Image: </label>
+                <input type="file" name="image" id="reimbursement-create-image">
+                <br>
+                <input type="submit">
+            </form>
+        </div>
     </div>
     <div id="reimbursement-search-div">
         <form>
@@ -63,16 +79,17 @@
             <input type="text" name="requestee">
             <label for="evaluator">Evaluator: </label>
             <input type="text" name="evaluator">
+            <br>
             <label for="requested-date">Requested Date: </label>
             <input type="date" name="requested-date">
             <label for="completed-date">Completed Date: </label>
             <input type="date" name="completed-date" id="completed-date">
             <input type="submit" name="search" value="Search">
         </form>
-        <div id="reimbursement-search-table-div"
-        {
-            
-        }
+        
+        <div id="reimbursement-search-table-div">
+        </div>
+        
     </div>
 </div>
 </body>
