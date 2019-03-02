@@ -17,7 +17,7 @@ window.onload = function () {
     reimbursementBtn = document.getElementById("reimbursementsBtn");
     logout = document.getElementById("logout-form");
     reimbursementsTable = document.getElementById("reimbursement-search-table-div");
-
+    
     profileBtn.addEventListener("click", () => {
         headerButtonPressed(0);
     });
@@ -36,7 +36,7 @@ window.onload = function () {
         if (xhr.readyState === 4) {
             user = JSON.parse(xhr.response);
             setProfile(user.first_name, user.last_name, positions[user.position - 1], user.manager, user.username, user.email,
-                 "", "", "", "", user.start_date);
+                 user.start_date);
             if (user.position == 2) {
                 managerStatus = true;
             }
@@ -47,8 +47,37 @@ window.onload = function () {
     xhr.open('get', "http://localhost:8080/Project-1/getUser");
 
     xhr.send();
+submitProfile();
     //JSON.parse()
 
+}
+function submitProfile()
+{
+    let ps = document.getElementById("profile-submit");
+    ps.addEventListener('click', (e)=>{
+
+        let email = document.getElementById("profile-email");
+        let password = document.getElementById("current-password");
+        let updatePassword = document.getElementById("update-password");
+        let updatePassword2 = document.getElementById("update-password2");
+        let obj = {};
+        obj.email = email.value;
+        if (updatePassword.value === updatePassword2.value)
+        {
+            obj.password = password.value;
+            obj.updatePassword = updatePassword.value;
+        }
+        let xhr = new XMLHttpRequest();
+
+        xhr.addEventListener('readystatechange', (e)=>{
+
+        });
+
+        xhr.open('post', "http://localhost:8080/Project-1/getUser");
+        let string = JSON.stringify(obj);
+        console.log(string);
+        xhr.send(string);
+    });
 }
 
 function headerButtonPressed(btn) {
@@ -87,14 +116,10 @@ function headerButtonPressed(btn) {
 }
 
 function setProfile(firstName = "", lastName = "", position, manager,
-    username = "", email = "", address = "", address2 = "", state = "", zipCode = "", startDate = "", image) {
+    username = "", email = "", startDate = "", image) {
     document.getElementById("profile-name").innerText = "Name: " + firstName + " " + lastName;
     document.getElementById("profile-username").innerText = "Username: " + username;
     document.getElementById("profile-email").value = email;
-    document.getElementById("profile-address").value = address;
-    document.getElementById("profile-address2").value = address2;
-    document.getElementById("profile-state").value = state;
-    document.getElementById("profile-zipcode").value = zipCode;
     document.getElementById("profile-start-date").innerText = "Start Date: " + startDate;
     document.getElementById("profile-position").innerText = "Position: " + position;
     document.getElementById("profile-manager").innerText = "Manager: " + manager;

@@ -33,16 +33,6 @@
     <br>
     <label name="email">Email: </label>
     <input name="email" id="profile-email" type="email">
-    <label name="profile-address">Address: </label>
-    <input name="profile-address" id="profile-address" type="text">
-    <br>
-    <label name="profile-address2">Address 2: </label>
-    <input name="profile-address2" id="profile-address2" type="text">
-    <label name="profile-state">State: </label>
-    <input name="profile-state" id="profile-state" type="text">
-    <br>
-    <label name="profile-zipcode">Zipcode :</label>
-    <input name="profile-zipcode" id="profile-zipcode" type="text">
     <br>
     <label name="current-password">Current Password: </label>
     <input name="current-password" id="current-password" type="password">
@@ -51,21 +41,21 @@
     <input name="update-password" id="update-password" type="password">
     <br>
     <label name="update-password2">Retype Password: </label>
-    <input name="update-password2" id="update-password2" type="passwprd">
+    <input name="update-password2" id="update-password2" type="password">
     <br>
-    <input name="submit" id="submit" type="submit">
+    <input name="submit" id="profile-submit" type="submit">
 
 </div>
 <div id="reimbursement-div">
     <div id="reimbursement-create-div">
         <p>Create Request.</p>
         <div id="reimbursement-create-form-div">
-            <form>
+            <form id="reimbursement-create-form" action="/Project-1/createReimbursement" method="POST">
                 <label>Amount: </label>
-                <input type="text">
+                <input type="text" name="amount">
                 <br>
                 <label>Description: </label>
-                <textarea row="4" cols="50"></textarea>
+                <textarea row="4" cols="50" name="info"></textarea>
                 <br>
                 <label>Image: </label>
                 <input type="file" name="image" id="reimbursement-create-image">

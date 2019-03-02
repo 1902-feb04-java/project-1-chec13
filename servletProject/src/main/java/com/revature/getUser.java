@@ -63,7 +63,27 @@ public class getUser extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+		HttpSession session = request.getSession();
+		String password = (String)session.getAttribute("password");
+		String username = (String)session.getAttribute("username");
+		Employee e = Employee.searchEmployee("username", username);
+		
+		System.out.println("changing user data");
+		if (e == null ||password == null || username == null || !e.password.equals(password))
+		{
+			
+		} else {
+			JSONObject obj = new JSONObject(request.getReader().readLine());
+			String email = obj.getString("email");
+			String pass = obj.getString("password");
+			String update_pass = obj.getString("updatePassword");
+			if (pass.equals(password) && update_pass.length() > 4)
+			{
+				Employee.updateEmployee(e.id, "password", update_pass);
+			}
+			if (email.contains("@") && email.contains(".com"))
+			Employee.updateEmployee(e.id, "email", email);
+		}
 	}
 
 }

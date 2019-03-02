@@ -42,4 +42,14 @@
     <servlet-name>ReimbursementsData</servlet-name>
     <url-pattern>/ReimbursementsData</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>createReimbursement</display-name>
+    <servlet-name>createReimbursement</servlet-name>
+    <servlet-class>com.revature.createReimbursement</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>createReimbursement</servlet-name>
+    <url-pattern>/createReimbursement</url-pattern>
+  </servlet-mapping>
 </web-app>
