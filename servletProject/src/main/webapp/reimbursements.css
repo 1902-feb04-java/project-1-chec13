@@ -96,7 +96,7 @@ body {
 #reimbursement-div{
     background-color: rgb(117, 99, 99, 0.5);
     width: 90%;
-    height: 100%;
+    height: auto;
     padding: 5%;
     padding-left: 10%;
     margin: 5%;
@@ -112,7 +112,7 @@ body {
     overflow: hidden;
 }
 #reimbursement-search-div:hover {
-    height: 400px;
+    height: auto;
     
     background-color: lightgray;
 }
@@ -125,12 +125,18 @@ body {
  overflow: hidden; 
  background-color: darkgray; 
  height: 60px;
+ width: 100%;
 
 }
 .reimburesment-item:hover{
     height: auto;
+    width: 100%;
 }
 #reimbursement-search-table-div {
-    overflow-y: scroll;
-    height: 400px;
+    /* overflow-y: scroll; */
+    height: 350px;
+}
+#reimbursement-scroll {
+ overflow-y: scroll;
+ height: 250px;
 }

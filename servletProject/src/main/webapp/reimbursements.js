@@ -40,10 +40,7 @@ window.onload = function () {
             if (user.position == 2) {
                 managerStatus = true;
             }
-            let r = new Reimbursement("130.00", "John Vasgird", "none", "Pending", "please approve", "3/1/2019", "3/1/2019");
-            for (let x = 0; x < 99; x++) {
-                addElementToReimbursements(r);
-            }
+            
         }
     });
 
@@ -64,6 +61,27 @@ function headerButtonPressed(btn) {
     else if (btn === 1) {
         profileDiv.style.display = "none";
         reimbursementsDiv.style.display = "block";
+        let xhr = new XMLHttpRequest();
+        xhr.addEventListener('readystatechange', ()=>{
+            if (xhr.readyState == 4)
+            {
+                clearReimbursementsTable();
+                let rArray = JSON.parse(xhr.response);
+                console.log(rArray);
+                for (let parse of Object.keys(rArray))
+                {
+                    //console.log(rArray[parse])
+                    //let r = JSON.parse(parse);
+                    addElementToReimbursements(new Reimbursement(rArray[parse].amount, rArray[parse].requestee,
+                        rArray[parse].resolver, statusArray[rArray[parse].status-1], rArray[parse].info, rArray[parse].request_time,
+                        rArray[parse].resolved,"", rArray[parse].reimburesment_id));
+                }
+                console.log(rArray);
+            }
+        });
+        xhr.open('get', "http://localhost:8080/Project-1/ReimbursementsData");
+
+        xhr.send();
     }
 }
 
@@ -82,7 +100,8 @@ function setProfile(firstName = "", lastName = "", position, manager,
 
 }
 class Reimbursement {
-    constructor(amount = "", requestee = "", resolver = "none", status = "", description = "", requestDate = "", resolveDate = "none", image) {
+    constructor(amount = "", requestee = "", resolver = "none", status = "", description = "",
+     requestDate = "", resolveDate = "none", image, id) {
         this.amount = amount;
         this.requestee = requestee;
         this.resolver = resolver;
@@ -91,6 +110,7 @@ class Reimbursement {
         this.image = image;
         this.requestDate = requestDate;
         this.resolveDate = resolveDate;
+        this.id = id;
         requests.push(this);
     }
 
@@ -133,4 +153,8 @@ function getStatusInputSelection(currentStatus) {
 function addElementToReimbursements(reimbursement) {
 
     reimbursementsTable.innerHTML += getElementString(reimbursement);
+}
+function clearReimbursementsTable()
+{
+    reimbursementsTable.innerHTML= "";
 }

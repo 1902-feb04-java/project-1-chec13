@@ -106,7 +106,7 @@ public class Reimbursements {
         try (Connection connection = DriverManager.getConnection(url, username, password))
         {
         	Statement statement = connection.createStatement();
-        	ResultSet rs = statement.executeQuery("SELECT * FROM Reimbursements WHERE requestee.id = "
+        	ResultSet rs = statement.executeQuery("SELECT * FROM Reimbursements WHERE requestee_id = "
         	+ id + ";");
         			
         	while(rs.next())
@@ -128,7 +128,7 @@ public class Reimbursements {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-        rArray = (Reimbursements[]) toArr.toArray();
+        rArray =  toArr.toArray(new Reimbursements[toArr.size()]);
         return rArray;
 	}
 	public static void approveReimbursement(int reimbursement_id, int resolver_id)
@@ -176,6 +176,39 @@ public class Reimbursements {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+	}
+	public static Reimbursements[] getAllReimbursements()
+	{
+		String url = "jdbc:postgresql://localhost:5432/postgres?currentSchema=project1_schema";
+        String username = "postgres";
+        String password = "admin";
+        Reimbursements[] rArray;
+        ArrayList<Reimbursements> toArr = new ArrayList<Reimbursements>();
+        try (Connection connection = DriverManager.getConnection(url, username, password))
+        {
+        	Statement statement = connection.createStatement();
+        	ResultSet rs = statement.executeQuery("SELECT * FROM Reimbursements;");
+        			
+        	while(rs.next())
+        	{
+        		Reimbursements r = new Reimbursements();
+        		r.amount = rs.getDouble("amount");
+        		r.info = rs.getString("info");
+        		r.status_id = rs.getInt("status_id");
+        		r.reimbursement_id = rs.getInt("id");
+        		r.requestee_id = rs.getInt("requestee_id");
+        		r.resolver_id = rs.getInt("resolver_id");
+        		r.requested = rs.getTimestamp("request_time");
+        		r.resolved = rs.getTimestamp("resolve_time");
+        		toArr.add(r);
+        	}
+        	rs.close();
+        } catch(SQLException e)
+        {
+        	e.printStackTrace();
+        }
+        rArray =  toArr.toArray(new Reimbursements[toArr.size()]);
+        return rArray;
 	}
 	
 }

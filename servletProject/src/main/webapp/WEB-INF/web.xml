@@ -32,4 +32,14 @@
     <servlet-name>getUser</servlet-name>
     <url-pattern>/getUser</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ReimbursementsData</display-name>
+    <servlet-name>ReimbursementsData</servlet-name>
+    <servlet-class>com.revature.ReimbursementsData</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ReimbursementsData</servlet-name>
+    <url-pattern>/ReimbursementsData</url-pattern>
+  </servlet-mapping>
 </web-app>

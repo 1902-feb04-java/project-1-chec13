@@ -51,5 +51,11 @@ class TestDataBase {
 		Reimbursements.denyReimbursement(6, 5);
 		assertTrue(Reimbursements.getReimbursement(6).status_id == 2);
 	}
+	@Test
+	void getReimbursementforId()
+	{
+		assertTrue(Reimbursements.reimbursementsForUserId(2).length == 0);
+		assertTrue(Reimbursements.reimbursementsForUserId(5).length > 2);
+	}
 
 }
