@@ -146,7 +146,7 @@ public class Reimbursements {
         	Statement statement = connection.createStatement();
         	statement.execute("UPDATE Reimbursements SET " + "resolver_id" + " = " + resolver_id 
         			+", resolve_time = current_timestamp, status_id = 1 "
-        			+ "WHERE id = " + reimbursement_id + ";");
+        			+ "WHERE id = " + reimbursement_id + " AND status_id = 2;");
         			
         	
         } catch (SQLException e1) {
@@ -169,7 +169,7 @@ public class Reimbursements {
         	Statement statement = connection.createStatement();
         	statement.execute("UPDATE Reimbursements SET " + "resolver_id" + " = " + resolver_id 
         			+", resolve_time = current_timestamp, status_id = 3 "
-        			+ "WHERE id = " + reimbursement_id + ";");
+        			+ "WHERE id = " + reimbursement_id + " AND status_id = 2;");
         			
         	
         } catch (SQLException e1) {

@@ -88,7 +88,27 @@ public class ReimbursementsData extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+		HttpSession session = request.getSession();
+		String password = (String)session.getAttribute("password");
+		String username = (String)session.getAttribute("username");
+		Employee e = Employee.searchEmployee("username", username);
+		
+		if (password.equals(e.password))
+		{
+		System.out.println("request");
+		JSONObject obj = new JSONObject(request.getReader().readLine());
+		int status = (int)obj.get("status");
+		int id = (int)obj.get("id");
+		System.out.println(status + " " + id);
+		if (status == 1)
+		{
+			Reimbursements.approveReimbursement(id, e.id);
+		}
+		else if (status == 3)
+		{
+			Reimbursements.denyReimbursement(id, e.id);
+		}
+		}
 	}
 
 }

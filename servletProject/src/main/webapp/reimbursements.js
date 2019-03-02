@@ -74,7 +74,8 @@ function headerButtonPressed(btn) {
                     //let r = JSON.parse(parse);
                     addElementToReimbursements(new Reimbursement(rArray[parse].amount, rArray[parse].requestee,
                         rArray[parse].resolver, statusArray[rArray[parse].status-1], rArray[parse].info, rArray[parse].request_time,
-                        rArray[parse].resolved,"", rArray[parse].reimburesment_id));
+                        rArray[parse].resolved,"", rArray[parse].reimbursement_id));
+                        
                 }
                 console.log(rArray);
             }
@@ -111,12 +112,12 @@ class Reimbursement {
         this.requestDate = requestDate;
         this.resolveDate = resolveDate;
         this.id = id;
-        requests.push(this);
+        requests[id] = this;
     }
 
 }
 function getElementString(reimbursement) {
-    string = `<div class="reimburesment-item">
+    string = `      <p style="display:none;">${reimbursement.id}</p>
                     <p>Requestee: ${reimbursement.requestee} 
                     Resolver: ${reimbursement.resolver} 
                     Status: ${reimbursement.status}
@@ -127,10 +128,18 @@ function getElementString(reimbursement) {
                     <br>
                     ${getStatusInputSelection(reimbursement.status)}
                     Description: ${reimbursement.description}
-
-                
-                </div>`;
+                    <Button onclick="onBtnClick">Submit</Button>
+                `;
     return string;
+}
+function selectionToInt(string)
+{
+    if (string == "Pending")
+    return 2;
+    if (string == "Approved")
+    return 1;
+    if (string == "Denied")
+    return 3;
 }
 function getStatusInputSelection(currentStatus) {
     if (!managerStatus)
@@ -151,10 +160,40 @@ function getStatusInputSelection(currentStatus) {
 
 }
 function addElementToReimbursements(reimbursement) {
+    let div = document.createElement("div");
+    div.setAttribute("class", "reimburesment-item");
+    div.innerHTML = getElementString(reimbursement);
+    let btn = div.getElementsByTagName("button");
+    btn[0].addEventListener('click', (e)=>{
+        let id = e.target.parentNode.getElementsByTagName("p")[0].innerText;
+         id = parseInt(id);
+         console.log(requests.keys());
+        let selection = e.target.parentNode.getElementsByTagName("select")[0];
+        console.log("id: " + id + " " + selection.value);
+        requests[id].status = selectionToInt(selection.value);
+        console.log(requests[id].status +" " + selectionToInt(selection.value));
+        let xhr = new XMLHttpRequest();
 
-    reimbursementsTable.innerHTML += getElementString(reimbursement);
+        xhr.addEventListener('readystatechange', ()=>{
+            if (xhr.readyState == 4)
+            {
+                console.log("sent " + requests[id]);
+            }
+        });
+
+        xhr.open('POST', "http://localhost:8080/Project-1/ReimbursementsData");
+
+        xhr.send(JSON.stringify(requests[id]));
+    });
+    reimbursementsTable.appendChild(div);
+
+    //reimbursementsTable.innerHTML += getElementString(reimbursement);
 }
 function clearReimbursementsTable()
 {
     reimbursementsTable.innerHTML= "";
+}
+function onBtnClick(e)
+{
+    console.log("fuck");
 }
