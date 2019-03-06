@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
+import org.postgresql.util.Base64;
 
 /**
  * Servlet implementation class createReimbursement
@@ -39,13 +40,16 @@ public class createReimbursement extends HttpServlet {
 		HttpSession session = request.getSession();
 		String password = (String)session.getAttribute("password");
 		String username = (String)session.getAttribute("username");
+		
 		Employee e = Employee.searchEmployee("username", username);
 		double amount = Double.parseDouble(request.getParameter("amount"));
 		if (password.equals(e.password))
 		{
-			
+			String imageData = (String)request.getParameter("imageData");
+			imageData = imageData.replaceFirst("data:image/jpeg;base64,", "");
+			byte[] image = Base64.decode(imageData);
 			Reimbursements r = new Reimbursements(amount, request.getParameter("info"),
-					e.id);
+					e.id, image);
 			Reimbursements.addRequest(r);
 			request.getRequestDispatcher("/reimbursements.html").forward(request, response);
 		}

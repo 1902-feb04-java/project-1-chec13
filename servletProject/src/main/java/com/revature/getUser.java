@@ -8,7 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONException;
 import org.json.JSONObject;
+import org.postgresql.util.Base64;
 
 /**
  * Servlet implementation class getUser
@@ -52,7 +54,12 @@ public class getUser extends HttpServlet {
 			o.put("Manager", manager.firstName +" " + manager.lastName);
 			o.put("start_date", e.startDate.toString());
 			o.put("position", e.position_id);
-			
+			//System.out.println(e.imageData.length());
+			if (e.imageData != null)
+			{
+				System.out.println("sending image");
+				o.put("imageData", "data:image/jpeg;base64," + e.imageData);
+			}
 			response.getWriter().println(o.toString());
 		}
 		
@@ -83,6 +90,17 @@ public class getUser extends HttpServlet {
 			}
 			if (email.contains("@") && email.contains(".com"))
 			Employee.updateEmployee(e.id, "email", email);
+			try {
+			String image = (String)obj.get("image");
+			image = image.replaceFirst("data:image/jpeg;base64,", "");
+			byte[] imageBytes = Base64.decode(image);
+			System.out.println(imageBytes.length);
+			Employee.addImage(e.id, imageBytes);
+			}
+			catch (JSONException ex)
+			{
+				System.out.println("no image");
+			}
 		}
 	}
 

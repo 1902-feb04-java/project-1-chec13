@@ -2,6 +2,7 @@ package com.revature;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -13,6 +14,7 @@ public class Reimbursements {
 
 	double amount;
 	String info;
+	byte[] imageData;
 	int status_id, requestee_id, resolver_id, reimbursement_id;
 	Timestamp requested, resolved;
 	public Reimbursements()
@@ -25,6 +27,13 @@ public class Reimbursements {
 		this.info = info;
 		this.requestee_id = requestee_id;
 	}
+	public Reimbursements (double amount, String info, int requestee_id, byte[] imageData)
+	{
+		this.amount = amount;
+		this.info = info;
+		this.requestee_id = requestee_id;
+		this.imageData = imageData;
+	}
 	public static void addRequest(Reimbursements r) 
 	{
 		String url = "jdbc:postgresql://localhost:5432/postgres?currentSchema=project1_schema";
@@ -33,17 +42,21 @@ public class Reimbursements {
         Employee e =  Employee.getEmployee(r.requestee_id);
         try (Connection connection = DriverManager.getConnection(url, username, password))
         {
-        	Statement statement = connection.createStatement();
-        	statement.execute("INSERT INTO Reimbursements (amount, info, status_id,"
-        			+ " requestee_id, request_time) VALUES (" + r.amount + ", '" + r.info +
-        			"', " + 2 + ", " + r.requestee_id  + ", current_timestamp);");
-        			
+        	
+        	String statement = "INSERT INTO Reimbursements (amount, info, status_id,"
+        			+ " requestee_id, request_time, image) VALUES (" + r.amount + ", '" + r.info +
+        			"', " + 2 + ", " + r.requestee_id  + ", current_timestamp, ?);";
+        	PreparedStatement state = connection.prepareStatement(statement);	
+        	state.setBytes(1, r.imageData);
+        	state.execute();
+        	
         	
         } catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 	}
+	
 	public static Reimbursements getReimbursement(int id)
 	{
 		String url = "jdbc:postgresql://localhost:5432/postgres?currentSchema=project1_schema";
@@ -65,6 +78,7 @@ public class Reimbursements {
         		r.resolver_id = rs.getInt("resolver_id");
         		r.requested = rs.getTimestamp("request_time");
         		r.resolved = rs.getTimestamp("resolve_time");
+        		r.imageData = rs.getBytes("image");
         	}
         	rs.close();
         	
@@ -120,6 +134,7 @@ public class Reimbursements {
         		r.resolver_id = rs.getInt("resolver_id");
         		r.requested = rs.getTimestamp("request_time");
         		r.resolved = rs.getTimestamp("resolve_time");
+        		r.imageData = rs.getBytes("image");
         		toArr.add(r);
         	}
         	rs.close();
@@ -200,6 +215,7 @@ public class Reimbursements {
         		r.resolver_id = rs.getInt("resolver_id");
         		r.requested = rs.getTimestamp("request_time");
         		r.resolved = rs.getTimestamp("resolve_time");
+        		r.imageData = rs.getBytes("image");
         		toArr.add(r);
         	}
         	rs.close();

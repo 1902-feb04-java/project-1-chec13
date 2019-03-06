@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.postgresql.util.Base64;
 
 /**
  * Servlet implementation class ReimbursementsData
@@ -30,6 +31,12 @@ public class ReimbursementsData extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		try {
+			Class.forName("org.postgresql.Driver");
+		}catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 		HttpSession session = request.getSession();
 		String password = (String)session.getAttribute("password");
 		String username = (String)session.getAttribute("username");
@@ -54,6 +61,13 @@ public class ReimbursementsData extends HttpServlet {
 					obj.put("request_time", r.requested);
 					obj.put("resolved", r.resolved);
 					obj.put("status", r.status_id);
+					try {
+						System.out.println(r.imageData.length);
+					obj.put("imageData", "data:image/jpeg;base64," + Base64.encodeBytes(r.imageData));
+					} catch (Exception ex)
+					{
+						
+					}
 					objArr.put((x + ""), obj);
 					x++;
 				}
@@ -75,6 +89,13 @@ public class ReimbursementsData extends HttpServlet {
 					obj.put("request_time", r.requested);
 					obj.put("resolved", r.resolved);
 					obj.put("status", r.status_id);
+					try {
+						System.out.println(r.imageData.length);
+						obj.put("imageData", "data:image/jpeg;base64," + Base64.encodeBytes(r.imageData));
+						} catch (Exception ex)
+						{
+							
+						}
 					objArr.put((x + ""), obj);
 					x++;
 				}

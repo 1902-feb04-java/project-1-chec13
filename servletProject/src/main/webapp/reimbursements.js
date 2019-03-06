@@ -9,6 +9,7 @@ let user;
 let positions = ["Employee", "Manager"];
 let statusArray = ["Approved", "Pending", "Denied"];
 let managerStatus = false;
+
 window.onload = function () {
 
     profileDiv = document.getElementById("profile-div");
@@ -36,14 +37,26 @@ window.onload = function () {
         if (xhr.readyState === 4) {
             user = JSON.parse(xhr.response);
             setProfile(user.first_name, user.last_name, positions[user.position - 1], user.manager, user.username, user.email,
-                 user.start_date);
+                 user.start_date, user.imageData);
             if (user.position == 2) {
                 managerStatus = true;
             }
             
         }
     });
-
+    let rci = document.getElementById("reimbursement-create-image");
+    rci.addEventListener('change', (e)=>{
+        let data = document.getElementById("reimbursement-image-data");
+        let fr = new FileReader();
+        let file = rci.files[0];
+        //console.log("here");
+        let success = (c) => {
+            data.value = c;
+            //console.log(c);
+        };
+        fr.readAsDataURL(file);
+        fr.onload = function(e){success(e.target.result)}
+    });
     xhr.open('get', "http://localhost:8080/Project-1/getUser");
 
     xhr.send();
@@ -51,6 +64,15 @@ submitProfile();
     //JSON.parse()
 
 }
+// function getBase64Image(img) {
+//     var canvas = document.createElement("canvas");
+//     canvas.width = img.width;
+//     canvas.height = img.height;
+//     var ctx = canvas.getContext("2d");
+//     ctx.drawImage(img, 0, 0);
+//     var dataURL = canvas.toDataURL("image/png");
+//     return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+//   }
 function submitProfile()
 {
     let ps = document.getElementById("profile-submit");
@@ -60,8 +82,26 @@ function submitProfile()
         let password = document.getElementById("current-password");
         let updatePassword = document.getElementById("update-password");
         let updatePassword2 = document.getElementById("update-password2");
+        let image = document.getElementById("profile-picture-selector").files[0];
+        console.log(image);
+        //document.getElementById("profile-picture").src = "image/png;base64," +getBase64Image(image.value);
+        //console.log(getBase64Image(document.getElementById("profile-picture")));
+        let fr = new FileReader();
+        
+        let imageFile;
+        let success = (c) => {
+            document.getElementById("profile-picture").src = c;
+            imageFile = c;
+            sendData(true);
+        };
+        fr.onload = function(evt) {success(evt.target.result)};
+        let sendData = (boolean) => 
+        {
+        
         let obj = {};
         obj.email = email.value;
+        if(boolean)
+        obj.image = imageFile;
         if (updatePassword.value === updatePassword2.value)
         {
             obj.password = password.value;
@@ -77,6 +117,14 @@ function submitProfile()
         let string = JSON.stringify(obj);
         console.log(string);
         xhr.send(string);
+        }
+        fr.onerror = ()=>{sendData(false);};
+        if(image){
+        fr.readAsDataURL(image);
+        }
+        else{
+            sendData(false);
+        }
     });
 }
 
@@ -103,7 +151,7 @@ function headerButtonPressed(btn) {
                     //let r = JSON.parse(parse);
                     addElementToReimbursements(new Reimbursement(rArray[parse].amount, rArray[parse].requestee,
                         rArray[parse].resolver, statusArray[rArray[parse].status-1], rArray[parse].info, rArray[parse].request_time,
-                        rArray[parse].resolved,"", rArray[parse].reimbursement_id));
+                        rArray[parse].resolved, rArray[parse].imageData, rArray[parse].reimbursement_id));
                         
                 }
                 console.log(rArray);
@@ -123,6 +171,10 @@ function setProfile(firstName = "", lastName = "", position, manager,
     document.getElementById("profile-start-date").innerText = "Start Date: " + startDate;
     document.getElementById("profile-position").innerText = "Position: " + position;
     document.getElementById("profile-manager").innerText = "Manager: " + manager;
+    if(image)
+    document.getElementById("profile-picture").src = image;
+
+    //console.log(image);
 
 }
 class Reimbursement {
@@ -137,6 +189,7 @@ class Reimbursement {
         this.requestDate = requestDate;
         this.resolveDate = resolveDate;
         this.id = id;
+        this.image = image;
         requests[id] = this;
     }
 
@@ -154,7 +207,9 @@ function getElementString(reimbursement) {
                     ${getStatusInputSelection(reimbursement.status)}
                     Description: ${reimbursement.description}
                     <Button onclick="onBtnClick">Submit</Button>
+                    
                 `;
+                
     return string;
 }
 function selectionToInt(string)
@@ -188,6 +243,12 @@ function addElementToReimbursements(reimbursement) {
     let div = document.createElement("div");
     div.setAttribute("class", "reimburesment-item");
     div.innerHTML = getElementString(reimbursement);
+    if (reimbursement.image)
+    {
+        let image = document.createElement("img");
+        image.src = reimbursement.image;
+        div.appendChild(image);
+    }
     let btn = div.getElementsByTagName("button");
     btn[0].addEventListener('click', (e)=>{
         let id = e.target.parentNode.getElementsByTagName("p")[0].innerText;
@@ -220,5 +281,5 @@ function clearReimbursementsTable()
 }
 function onBtnClick(e)
 {
-    console.log("fuck");
+    
 }

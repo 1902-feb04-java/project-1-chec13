@@ -1,18 +1,24 @@
 package com.revature;
 
+import java.security.spec.EncodedKeySpec;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
+
+import org.postgresql.util.Base64;
+
 
 
 public class Employee {
 	String firstName, lastName, username, password, email;
 	int position_id, manager_id, id;
 	Date startDate;
+	String imageData;
 	public static Employee getEmployee(int id)
 	{
 		String url = "jdbc:postgresql://localhost:5432/postgres?currentSchema=project1_schema";
@@ -36,7 +42,13 @@ public class Employee {
         		emp.position_id = rs.getInt("position_id");
         		emp.manager_id = rs.getInt("manager_id");
         		emp.startDate = rs.getDate("start_date");
-        		
+        		try {
+        		emp.imageData = Base64.encodeBytes(rs.getBytes("image"));
+        		} catch (Exception e)
+        		{
+        			
+        		}
+        		//System.out.println(emp.imageData);
         		
         	}
         	rs.close();
@@ -94,6 +106,27 @@ public class Employee {
         	Statement statement = connection.createStatement();
         	statement.execute("UPDATE employee SET " + col + " = '" + s 
         			+"' WHERE employee.id = " + id + ";");
+        			
+        	
+        } catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
+	public static void addImage(int id, byte[] b)
+	{
+		String url = "jdbc:postgresql://localhost:5432/postgres?currentSchema=project1_schema";
+        String username = "postgres";
+        String password = "admin";
+        
+        try (Connection connection = DriverManager.getConnection(url, username, password))
+        {
+        	
+        	String statement = "UPDATE employee SET image = ? WHERE employee.id = " + id + ";";
+        	PreparedStatement p = connection.prepareStatement(statement);
+        	p.setBytes(1, b);
+        	
+        	p.execute();
         			
         	
         } catch (SQLException e1) {
@@ -198,6 +231,12 @@ public class Employee {
         		emp.position_id = rs.getInt("position_id");
         		emp.manager_id = rs.getInt("manager_id");
         		emp.startDate = rs.getDate("start_date");
+        		try {
+        		emp.imageData = Base64.encodeBytes(rs.getBytes("image"));
+        		} catch (Exception e)
+        		{
+        			
+        		}
         		return emp;
         		
         	}
