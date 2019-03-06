@@ -1,0 +1,148 @@
+#header-div {
+background-color: rgba(139, 161, 235, 0.1);
+position: fixed;
+left: 0;
+width: 1.5%;
+height: 100%;
+display:inline-block;
+transition: width 2s, background-color 2s;
+}
+#header-div:hover {
+    width: 10%;
+    background-color: rgb(148, 171, 248);
+    transition: width 2s, background-color 2s;
+}
+
+#header-div button {
+    background-color: rgb(255, 123, 0, 50%);
+    width: 100%;
+    height: 20%;
+    margin-top: 2%;
+    border-radius: 10%;
+    overflow: hidden;
+}
+#header-div button:hover {
+    background-color: rgb(255, 170, 50);
+    
+}
+div {
+    display:inline-block;
+}
+#employees-list{
+    padding-left: 10%;
+    width: 100%;
+    display:none;
+    background-color: rgba(255,255,255,0.8);
+}
+#profile-div{
+    padding-left: 10%;
+    width: 100%;
+    display:none;
+    background-color: rgba(255,255,255,0.8);
+    
+}
+#profile-picture{
+    position:relative;
+    right:0;
+    width: 50%;
+    height: 50%;
+    border-width: 10px;
+    border-color: black;
+    display: block;
+}
+#profile-div *{
+    display:inline-block;
+    width: 30%;
+    margin-top: 2%;
+   
+}
+#profile-div label{
+    width: auto;
+}
+#profile-picture-div *{
+    display:block;
+}
+#profile-picture-div {
+    padding-left: 75%;
+    width: 35%;
+    display: block;
+}
+body {
+    overflow: hidden;
+    background: no-repeat;
+	background-size: cover;
+	background-position: relative;
+	width: 100%;
+	height: 100%;
+	background-image: url(https://marketingland.com/wp-content/ml-loads/2014/12/businesspeople-meeting-ss-1920.jpg);
+}
+#welcome {
+    width: 50%;
+    text-align: center;
+    margin-left: 30%;
+    margin-top: 10%;
+    padding-bottom: 20%;
+    background-color: rgba(255, 230, 100, 0.5);
+    font-weight: 900;
+    font-stretch: condensed;
+    
+}
+#reimbursement-create-div{
+    background-color: darkgray;
+    width: 80%;
+    height: 35px;
+    text-align: center;
+    overflow:hidden;
+    margin-bottom: 50px;
+}
+#reimbursement-create-div:hover{
+    background-color: lightgray;
+}
+
+#reimbursement-div{
+    background-color: rgb(117, 99, 99, 0.5);
+    width: 90%;
+    height: auto;
+    padding: 5%;
+    padding-left: 10%;
+    margin: 5%;
+    display:none;
+}
+#reimbursement-create-div:hover {
+  height: 250px; 
+}
+#reimbursement-search-div {
+    background-color: darkgray;
+    width: 80%;
+    height: 50px;
+    overflow: hidden;
+}
+#reimbursement-search-div:hover {
+    height: auto;
+    
+    background-color: lightgray;
+}
+#reimbursement-create-form-div *{
+    margin-top: 10px;
+    padding-left: 0;
+    margin-left:0;
+}
+.reimburesment-item {
+ overflow: hidden; 
+ background-color: darkgray; 
+ height: 60px;
+ width: 100%;
+
+}
+.reimburesment-item:hover{
+    height: auto;
+    width: 100%;
+}
+#reimbursement-search-table-div {
+    /* overflow-y: scroll; */
+    height: 500px;
+}
+#reimbursement-scroll {
+ overflow-y: scroll;
+ height: 400px;
+}
