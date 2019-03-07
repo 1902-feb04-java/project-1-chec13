@@ -49,7 +49,7 @@ window.onload = function () {
     xhr.addEventListener('readystatechange', () => {
         if (xhr.readyState === 4) {
             user = JSON.parse(xhr.response);
-            setProfile(user.first_name, user.last_name, positions[user.position - 1], user.manager, user.username, user.email,
+            setProfile(user.first_name, user.last_name, positions[user.position - 1], user.Manager, user.username, user.email,
                  user.start_date, user.imageData);
             if (user.position == 2) {
                 managerStatus = true;
